@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { test } from '../fixtures/base';
 
 test.describe('Verify Shopping Cart', () => {
-    test('2   Add Random Products', async (
+    test('Test 2   Add Random Products', async (
         /** @type {{ app: import('../pages/Application').Application }} */{ app },
     ) => {
         await app.login.navigate();
