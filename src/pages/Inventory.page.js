@@ -1,4 +1,5 @@
 /* eslint-disable no-case-declarations */
+import _ from 'lodash';
 import { expect } from '@playwright/test';
 import { BaseSwagLabPage } from './BaseSwagLab.page';
 
@@ -9,11 +10,13 @@ export class InventoryPage extends BaseSwagLabPage {
 
     inventoryItems = this.page.locator('.inventory_item');
 
-    addItemToCartButton = this.page.locator('[id^="add-to-cart"]');
-
     itemTitle = this.page.getByTestId('inventory-item-name');
 
+    itemDesc = this.page.getByTestId('inventory-item-desc');
+
     itemPrice = this.page.getByTestId('inventory-item-price');
+
+    addItemToCartButton = this.page.locator('[id^="add-to-cart"]');
 
     sortButton = this.page.getByTestId('product-sort-container');
 
