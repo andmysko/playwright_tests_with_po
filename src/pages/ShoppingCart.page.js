@@ -7,11 +7,11 @@ export class ShoppingCartPage extends BaseSwagLabPage {
 
     removeItemSelector = '[id^="remove"]';
 
-    cartItemTitle = this.page.getByTestId('inventory-item-name');
+    cartItemTitle = this.page.locator('[data-test="inventory-item-name"]');
 
-    cartDescTitle = this.page.getByTestId('inventory-item-desc');
+    cartItemDesc = this.page.locator('[data-test="inventory-item-desc"]');
 
-    cartItemPrice = this.page.getByTestId('inventory-item-price');
+    cartItemPrice = this.page.locator('[data-test="inventory-item-price"]');
 
     headerTitle = this.page.locator('.title');
 
@@ -31,18 +31,10 @@ export class ShoppingCartPage extends BaseSwagLabPage {
         await this.cartItems.nth(id).locator(this.removeItemSelector).click();
     }
 
-    async getItemNameById(linkId) {
-        const itemTitle = await this.page.locator(`#${linkId} >> [data-test='inventory-item-name']`).textContent();
-        const itemDesc = await this.page.locator(`#${linkId} + div[data-test='inventory-item-desc']`).textContent();
-        const itemPrice = await this.page.locator(`#${linkId} ~ div[class='item_pricebar'] > div[data-test='inventory-item-price'] `).textContent();
-        return { linkId, itemTitle, itemDesc, itemPrice};
-    }
-
-    async getItemDescId(id) {
-        return this.page.locator(`#${id} >> [data-test='inventory-item-desc]`);
-    }
-
-    async getItemPriceId(id) {
-        return this.page.locator(`#${id} >> [data-test='inventory-item-price']`);
+    async getItemInfoById(i) {
+        const itemTitle = await this.cartItemTitle.nth(i).textContent();
+        const itemDesc = await this.cartItemDesc.nth(i).textContent();
+        const itemPrice = await this.cartItemPrice.nth(i).textContent();
+        return { itemTitle, itemDesc, itemPrice };
     }
 }

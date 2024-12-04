@@ -16,12 +16,13 @@ export class InventoryPage extends BaseSwagLabPage {
 
     itemPrice = this.page.getByTestId('inventory-item-price');
 
-    addItemToCartButton = this.page.locator('[id^="add-to-cart"]');
+    parent = this.page.locator('.inventory_item');
 
     sortButton = this.page.getByTestId('product-sort-container');
 
     async addItemToCartById(id) {
-        await this.addItemToCartButton.nth(id).click();
+        const addToCartButton = await this.parent;
+        await addToCartButton.nth(id).locator('button').click();
     }
 
     async sortItemBy(type) {
@@ -63,5 +64,24 @@ export class InventoryPage extends BaseSwagLabPage {
             default:
                 throw new Error('Sort option is not correct');
         }
+    }
+
+    async AddRandomItemToTheCart(number, numbersOfItems) {
+        const randomNumbers = [];
+        const SelectedItems = [];
+        for (let i = 0; i < number; i++) {
+            let randomNumber;
+            do {
+                randomNumber = _.random(0, numbersOfItems - 1);
+            } while (randomNumbers.includes(randomNumber));
+            randomNumbers.push(randomNumber);
+            // get is
+            const itemTitle = await this.itemTitle.nth(randomNumber).textContent();
+            const itemDesc = await this.itemDesc.nth(randomNumber).textContent();
+            const itemPrice = await this.itemPrice.nth(randomNumber).textContent();
+            await this.addItemToCartById(randomNumber);
+            SelectedItems.push({ itemTitle, itemDesc, itemPrice });
+        }
+        return SelectedItems;
     }
 }
