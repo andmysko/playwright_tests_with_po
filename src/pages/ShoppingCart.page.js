@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import { BaseSwagLabPage } from './BaseSwagLab.page';
 
 export class ShoppingCartPage extends BaseSwagLabPage {
@@ -7,11 +8,11 @@ export class ShoppingCartPage extends BaseSwagLabPage {
 
     removeItemSelector = '[id^="remove"]';
 
-    cartItemTitle = this.page.locator('[data-test="inventory-item-name"]');
+    cartItemTitle = this.page.getByTestId('inventory-item-name');
 
-    cartItemDesc = this.page.locator('[data-test="inventory-item-desc"]');
+    cartItemDesc = this.page.getByTestId('inventory-item-desc');
 
-    cartItemPrice = this.page.locator('[data-test="inventory-item-price"]');
+    cartItemPrice = this.page.getByTestId('inventory-item-price');
 
     headerTitle = this.page.locator('.title');
 
@@ -31,10 +32,15 @@ export class ShoppingCartPage extends BaseSwagLabPage {
         await this.cartItems.nth(id).locator(this.removeItemSelector).click();
     }
 
-    async getItemInfoById(i) {
-        const itemTitle = await this.cartItemTitle.nth(i).textContent();
-        const itemDesc = await this.cartItemDesc.nth(i).textContent();
-        const itemPrice = await this.cartItemPrice.nth(i).textContent();
-        return { itemTitle, itemDesc, itemPrice };
+    async getCartItemInfo() {
+        const allProducts = await this.cartItems.all();
+        const cartItems = [];
+        for await (const element of allProducts) {
+            const itemTitle = await element.getByTestId('inventory-item-name').innerText();
+            const itemDesc = await element.getByTestId('inventory-item-desc').innerText();
+            const itemPrice = await element.getByTestId('inventory-item-price').innerText();
+            cartItems.push({ itemTitle, itemDesc, itemPrice });
+        }
+        return cartItems;
     }
 }
