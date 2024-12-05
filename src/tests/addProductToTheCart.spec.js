@@ -5,7 +5,7 @@ import { expect } from '@playwright/test';
 import { test } from '../fixtures/base';
 
 test.describe('Verify Shopping Cart', () => {
-    test('Test 2   Add Random Products', async (
+    test('Verify The User Is Able To Add Several Items Into The Cart ', async (
         /** @type {{ app: import('../pages/Application').Application }} */{ app },
     ) => {
         await app.login.navigate();
