@@ -1,4 +1,6 @@
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-case-declarations */
+import _ from 'lodash';
 import { expect } from '@playwright/test';
 import { BaseSwagLabPage } from './BaseSwagLab.page';
 
@@ -9,16 +11,19 @@ export class InventoryPage extends BaseSwagLabPage {
 
     inventoryItems = this.page.locator('.inventory_item');
 
-    addItemToCartButton = this.page.locator('[id^="add-to-cart"]');
-
     itemTitle = this.page.getByTestId('inventory-item-name');
 
+    itemDesc = this.page.getByTestId('inventory-item-desc');
+
     itemPrice = this.page.getByTestId('inventory-item-price');
+
+    parent = this.page.locator('.inventory_item');
 
     sortButton = this.page.getByTestId('product-sort-container');
 
     async addItemToCartById(id) {
-        await this.addItemToCartButton.nth(id).click();
+        const addToCartButton = await this.parent;
+        await addToCartButton.nth(id).locator('button').click();
     }
 
     async sortItemBy(type) {
@@ -60,5 +65,19 @@ export class InventoryPage extends BaseSwagLabPage {
             default:
                 throw new Error('Sort option is not correct');
         }
+    }
+
+    async addRandomItemToTheCart() {
+        const allProducts = await this.inventoryItems.all();
+        const randomProduct = _.sampleSize(allProducts, 2);
+        const selectedItems = [];
+        for await (const element of randomProduct) {
+            const itemTitle = await element.getByTestId('inventory-item-name').innerText();
+            const itemDesc = await element.getByTestId('inventory-item-desc').innerText();
+            const itemPrice = await element.getByTestId('inventory-item-price').innerText();
+            selectedItems.push({ itemTitle, itemDesc, itemPrice });
+            await element.locator('[id^="add-to-cart"]').click();
+        }
+        return selectedItems;
     }
 }
