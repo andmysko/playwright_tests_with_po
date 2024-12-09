@@ -5,5 +5,13 @@ async function calculatedTotalPrice(ItemsData) {
     }
     return sumPrice;
 }
-
-module.exports = { calculatedTotalPrice };
+const randomNumbers = [];
+function generateRandomNumber(maxNumber) {
+    let randomNumber;
+    do {
+        randomNumber = Math.floor(Math.random() * maxNumber);
+    } while (randomNumbers.includes(randomNumber));
+    randomNumbers.push(randomNumber);
+    return randomNumber;
+}
+module.exports = { calculatedTotalPrice, generateRandomNumber };

@@ -67,9 +67,9 @@ export class InventoryPage extends BaseSwagLabPage {
         }
     }
 
-    async addRandomItemToTheCart() {
+    async addRandomItemToTheCart(randomNumber) {
         const allProducts = await this.inventoryItems.all();
-        const randomProduct = _.sampleSize(allProducts, 2);
+        const randomProduct = _.sampleSize(allProducts, randomNumber);
         const selectedItems = [];
         for await (const element of randomProduct) {
             const itemTitle = await element.getByTestId('inventory-item-name').innerText();

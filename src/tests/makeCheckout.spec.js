@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test';
 import { test } from '../fixtures/base';
-import { calculatedTotalPrice } from './utils';
+import { calculatedTotalPrice, generateRandomNumber } from './utils';
 
 test.describe('Verify Checkout', () => {
     test('Verify The Total Price Of Item Is Displayed Correctly  ', async (
@@ -8,7 +8,9 @@ test.describe('Verify Checkout', () => {
     ) => {
         await app.login.navigate();
         await app.login.performLogin('standard_user', 'secret_sauce');
-        const addedItems = await app.inventory.addRandomItemToTheCart();
+        const numbersOfItems = await app.inventory.inventoryItems.count();
+        const randomQuantity = generateRandomNumber(numbersOfItems);
+        const addedItems = await app.inventory.addRandomItemToTheCart(randomQuantity);
         // navigate to cart
         await app.inventory.shoppingCart.click();
         const itemFromCart = await app.shoppingCart.getCartItemInfo();
