@@ -37,5 +37,8 @@ module.exports = {
         }],
         'max-classes-per-file': ['error', 2],
         'import/prefer-default-export': 'off',
+        'no-plusplus': 'off',
+        'no-await-in-loop': 'off',
+        'playwright/valid-title': 'off',
     },
 };
