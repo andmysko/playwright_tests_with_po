@@ -1,8 +1,6 @@
-/* eslint-disable playwright/valid-title */
-/* eslint-disable no-plusplus */
-/* eslint-disable no-await-in-loop */
 import { expect } from '@playwright/test';
 import { test } from '../fixtures/base';
+import { calculatedTotalPrice } from './utils';
 
 test.describe('Verify Checkout', () => {
     test('Verify The Total Price Of Item Is Displayed Correctly  ', async (
@@ -18,10 +16,11 @@ test.describe('Verify Checkout', () => {
         // make a checkout
         await app.shoppingCart.checkoutButton.click();
         // fill customer info
-        await app.checkoutInfo.fillCustomerInformation();
+        const customerData = { firstName: 'Andrii', lastName: 'Mysko', zipCode: '76018' };
+        await app.checkoutInfo.fillCustomerInformation(customerData);
         // compare without Tax
         const actualTotalValue = await app.checkoutOverView.getValueBeforeTax();
-        const expectedTotal = await app.checkoutOverView.calculatedTotalPrice(itemFromCart);
+        const expectedTotal = await calculatedTotalPrice(itemFromCart);
         expect(expectedTotal).toEqual(actualTotalValue);
         // compare with tax
         const actualTotalWithTax = await app.checkoutOverView.getWithTax();

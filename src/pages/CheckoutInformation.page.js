@@ -1,12 +1,9 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-case-declarations */
-import { expect } from '@playwright/test';
 import { BaseSwagLabPage } from './BaseSwagLab.page';
 
 export class CheckoutInfoPage extends BaseSwagLabPage {
     url = '/checkout-step-one.html';
-
-    customerData = { firstName: 'Andrii', lastName: 'Mysko', zipCode: '76018' };
 
     continueButton = this.page.getByTestId('continue');
 
@@ -16,10 +13,10 @@ export class CheckoutInfoPage extends BaseSwagLabPage {
 
     zipCodeInput = this.page.getByTestId('postalCode');
 
-    async fillCustomerInformation() {
-        await this.firstNameInput.fill(this.customerData.firstName);
-        await this.lastNameInput.fill(this.customerData.lastName);
-        await this.zipCodeInput.fill(this.customerData.zipCode);
+    async fillCustomerInformation(customerData) {
+        await this.firstNameInput.fill(customerData.firstName);
+        await this.lastNameInput.fill(customerData.lastName);
+        await this.zipCodeInput.fill(customerData.zipCode);
         await this.continueButton.click();
     }
 }

@@ -1,8 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-case-declarations */
-import { expect } from '@playwright/test';
 import { BaseSwagLabPage } from './BaseSwagLab.page';
-import { InventoryPage } from './Inventory.page';
 
 export class CheckoutOverViewPage extends BaseSwagLabPage {
     url = '/checkout-step-two.html';
@@ -18,12 +16,6 @@ export class CheckoutOverViewPage extends BaseSwagLabPage {
     taxValue = 0.08;
 
     // eslint-disable-next-line class-methods-use-this
-    async calculatedTotalPrice(ItemsData) {
-        const price1 = parseFloat(ItemsData[0].itemPrice.replace('$', ''));
-        const price2 = parseFloat(ItemsData[1].itemPrice.replace('$', ''));
-        const expectedTotal = price1 + price2;
-        return expectedTotal;
-    }
 
     async getValueBeforeTax() {
         const total = await this.itemTotal.innerText();
@@ -42,7 +34,7 @@ export class CheckoutOverViewPage extends BaseSwagLabPage {
     async calculatedTotalWithTaxes(price) {
         const tax = price * this.taxValue;
         const roundedTax = Number(tax.toFixed(2));
-        const totalPriceWithTax = price + roundedTax;
+        const totalPriceWithTax = Number((price + roundedTax).toFixed(2));
         return totalPriceWithTax;
     }
 }
