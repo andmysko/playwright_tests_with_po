@@ -1,4 +1,5 @@
 import { test } from '../fixtures/base';
+import { usersCreds } from './utils';
 
 const dataSortType = [
     {
@@ -19,7 +20,7 @@ dataSortType.forEach(({ sortBy }) => {
         app,
     }) => {
         await app.login.navigate();
-        await app.login.performLogin('standard_user', 'secret_sauce');
+        await app.login.performLogin(usersCreds.login, usersCreds.password);
         const productNames = await app.inventory.getProductsNames();
         const productPrices = await app.inventory.getProductPrices();
         await app.inventory.sortItemBy(sortBy);
