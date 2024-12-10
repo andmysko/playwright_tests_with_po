@@ -1,5 +1,6 @@
 import { test } from '../fixtures/base';
 import { usersCreds } from './utils';
+
 const dataSortType = [
     {
         sortBy: 'Name (A to Z)',

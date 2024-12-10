@@ -9,7 +9,7 @@ test.describe('Verify Checkout', () => {
         await app.login.navigate();
         await app.login.performLogin(usersCreds.login, usersCreds.password);
         const numbersOfItems = await app.inventory.inventoryItems.count();
-        const randomNumber = Math.floor(Math.random() * numbersOfItems) + 1;
+        const randomNumber = Math.floor(Math.random() * numbersOfItems);
         const addedItems = await app.inventory.addRandomItemToTheCart(randomNumber);
         // navigate to cart
         await app.inventory.shoppingCart.click();
